@@ -1,0 +1,212 @@
+#include "ui/menudef.h"
+
+  /* --- Health indicator --- */
+
+menuDef {
+	name "healthIndicator"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect 477 130 52 18
+    ownerdrawflag 0
+	
+	itemDef {
+		name "healthIndicatorIcon" 
+		rect 0 0 0 0 
+		visible 1
+		decoration
+		style 1
+		backcolor 1 1 1 1 
+		background "ui/assets/hud/health.tga"
+	}
+	
+	itemDef {
+		name "healthIndicatorCounter"
+		rect 0 0 52 18 
+		visible 1
+		textalign 0
+		decoration
+		textstyle 3 
+		forecolor 1 1 1 0.57 
+		textscale 0.5 
+		ownerdraw CG_PLAYER_HEALTH
+		addColorRange -999 25 0.5 1 0.9 0.57 
+		addColorRange 26 100 0 0.9 0.8 0.57 
+		addColorRange 101 999 0 0.6 0.5 0.57 
+	}
+}
+
+loop/* --- Armor indicator --- */
+menuDef {
+	name "armorIndicator"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect 477 147 52 18
+    ownerdrawflag 0
+	itemDef {
+		name "armorIndicatorIcon" 
+		rect 0 0 0 0
+		visible 1
+		decoration
+		style 1
+		backcolor 1 1 1 1
+		background "ui/assets/hud/armor.tga"
+		ownerdraw CG_TEAM_COLORIZED 
+	}
+
+
+
+	itemDef {
+		name "armorIndicatorCounter" 
+		rect 0 0 52 18
+		visible 1
+		textalign 0
+		decoration
+		textstyle 3
+		forecolor 1 1 1 0.58
+		textscale 0.5
+		ownerdraw CG_PLAYER_ARMOR_VALUE
+		addColorRange -999 25 0.9 0.9 0 0.58
+		addColorRange 26 100 0.8 0.8 0 0.58
+		addColorRange 101 999 0.6 0.6 0 0.58
+	}
+}
+
+loop/* --- Timer --- */
+
+menuDef {
+	name "timer"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect 141 124 59 23
+    ownerdrawflag 0	
+	itemDef {
+		name "timerIcon"
+		rect 0 0 0 0 
+		visible 1
+		decoration		
+		style 1
+		backcolor 1 1 1 0.22 
+		background "icons/icon_time.tga"
+	}
+
+	itemDef {
+		name "timerCounter"
+		rect 0 23 69 23 
+		visible 1
+		textalign 0
+		decoration
+		textstyle 3 
+		forecolor 1 1 1 0.65 
+		textscale 0.64 
+		ownerdraw CG_LEVELTIMER
+	}
+}
+
+loop/* --- Usable player item --- */
+menuDef {
+	name "playerItem"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect 516 113 12 12 
+
+	itemDef {
+      	name "playerItemIcon"
+      	rect 0 0 12 12 
+		visible 1
+		decoration
+		ownerdraw CG_PLAYER_ITEM  
+	}
+}
+
+
+
+loop/* --- Flag indicator --- */
+
+//red player has blue flag
+menuDef {
+	name "flagIndicator"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect 337 0 37 37 
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_RED
+	
+	itemDef {
+		name "playerRect"
+		rect 0 0 37 37 
+		visible 1
+		style 3
+		background "ui/assets/hud/flag"
+		ownerdrawflag CG_SHOW_IF_PLAYER_HAS_FLAG
+	}
+
+	itemDef {
+      	name "flag"
+        rect 3 3 31 31 
+		visible 1
+		decoration
+		style 1
+		ownerdrawflag CG_SHOW_IF_PLAYER_HAS_FLAG  
+		backcolor 0.2 0.35 1 0.9
+		background "ui/assets/statusbar/flag_in_base"
+	}
+}
+
+//blue player has red flag
+menuDef {
+	name "flagIndicator"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect 337 0 37 37 
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_BLUE
+	
+	itemDef {
+		name "playerRect"
+		rect 0 0 37 37 
+		visible 1
+		style 3
+		background "ui/assets/hud/flag"
+		ownerdrawflag CG_SHOW_IF_PLAYER_HAS_FLAG
+	}
+
+	itemDef {
+      	name "flag"
+        rect 3 3 31 31 
+		visible 1
+		decoration
+		style 1
+		ownerdrawflag CG_SHOW_IF_PLAYER_HAS_FLAG  
+		backcolor 1 0 0 0.9
+		background "ui/assets/statusbar/flag_in_base"
+	}
+}
+
+loop
+/* --- rectangle box --- */
+menuDef {
+	name "chatArea"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect 0 245 640 160 
+	
+
+	itemDef {
+		name "boxBackground"
+		rect 0 0  640 160 
+		visible 1
+		style WINDOW_STYLE_FILLED
+		ownerdrawflag CG_SHOW_IF_CHAT_VISIBLE
+		backcolor 0 0 0 0.75 
+		background "ui/assets/hud/chatm.tga" 
+	}
+
+    itemdef {
+		name chatWindow
+		ownerdraw CG_AREA_NEW_CHAT
+		rect 3 1 634 154 
+		visible 1
+		decoration
+	}
+}
+
+loop
+

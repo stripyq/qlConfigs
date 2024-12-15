@@ -1,0 +1,1739 @@
+#include "ui/menudef.h"
+
+/*
+Quake 4 style custom HUD for QuakeLive
+Variant:		Slim bars with values above
+Author:		EmSixTeen
+Contact:		#quakelive@quakenet
+Last edit:	29.04.2011
+===========================================================
+rect 		horpos vertpos horsize vertsize
+others 		red green blue transparency
+addColorRange 	lowvalue highvalue r g b transparency
+===========================================================
+First things are drawn first, that's why the background layers are before the health values, for example.
+
+Kudos to people who've helped with other HUDs, and those who use this.
+Please credit me if you edit the shit out of this :)
+*/
+
+// Using #define is like using a shortcut, and if you edit it here, it'll change wherever you use it
+#define	DEFAULTS_ITEM	decoration visible 1
+#define	DEFAULTS_MENU	visible 1
+
+// Settings for the colour and transparency of the health/armour/ammo backgrounds
+#define 	VITALS_BG 	backcolor 0 0 0 .5	// Default: backcolor 0 0 0 .5
+#define 	VITALS_BG_BLEND	backcolor 0 0 0 .25	// Default: backcolor 0 0 0 .25
+
+// Easily set the position of the player's vitals
+#define 	HEALTH_POS 	166 442	// Default: 166 442
+#define 	ARMOUR_POS 	325 442	// Default: 325 442
+#define 	AMMO_POS 	3 442	// Default: 3 442
+
+// Set the colour of the bars depending on the value
+#define 	EMPTY_ALPHA	.2		// .2 Transparency of the colour of empty bars
+#define	COLOUR_CRITICAL	1 0 0		// Red
+#define	COLOUR_LOW	0.75 0.45 0	// Gold
+#define	COLOUR_HEALTHY	0 .4 .1		// Green
+#define	COLOUR_STACKED	.15 .6 0		// Brighter green
+
+#define	LEFTALIGN	textalign ITEM_ALIGN_LEFT
+#define	CENTERALIGN	textalign ITEM_ALIGN_CENTER
+#define	RIGHTALIGN	textalign ITEM_ALIGN_RIGHT
+
+#define	NORMALTEXT	textstyle 0
+#define	DROPSHADOWTEXT	textstyle 3
+#define	HEAVYSHADOWTEXT	textstyle 6
+
+// == SCORES ==============================================
+
+menuDef {
+	name "ihatemakingscoreboards"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE	
+	rect 3 25 32 256
+	
+	itemDef {
+		name "scores-bg"
+		DEFAULTS_ITEM
+		VITALS_BG
+		rect 0 0 156 40
+		style 1
+	}
+}
+
+	// Red team top
+menuDef {
+	fullScreen MENU_FALSE
+	visible MENU_TRUE	
+	rect 3 26 32 256
+	ownerdrawflag CG_SHOW_IF_RED_IS_FIRST_PLACE
+	
+	itemDef {
+		DEFAULTS_ITEM
+     		rect 3 1 130 15 
+		backcolor 1 0 0 0.3
+		style 1
+		background "ui/assets/hud/rteambgl.tga"
+		ownerdrawflag CG_SHOW_RED_TEAM_HAS_BLUEFLAG
+	}
+	itemDef {
+     		DEFAULTS_ITEM
+		rect 22 1 130 15 
+		backcolor 1 0 0 0.3
+		style 1
+		background "ui/assets/hud/rteambgr.tga"
+		ownerdrawflag CG_SHOW_RED_TEAM_HAS_BLUEFLAG
+	}
+	itemDef {
+		name "clanArena"
+		DEFAULTS_ITEM
+		rect 4 3 22 12
+		backcolor 1 1 1 1
+		style 1
+		cvartest g_gametype
+		showcvar { 3,4 }
+		background "ui/assets/score/ca_score_red.tga"
+	}
+	itemdef {
+		name "redClanPlayers"
+		DEFAULTS_ITEM
+		ownerdraw CG_RED_CLAN_PLYRS  
+		rect 16 14 136 40
+		textscale .22
+		forecolor 1 1 1 0.65
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 3 3 13 13
+		bordercolor 1 1 1 1
+		style 3
+		ownerdrawflag CG_SHOW_HARVESTER                 
+		background "icons/skull_red.tga"
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 6 2 13 13
+		ownerdrawflag CG_SHOW_CTF                       
+		ownerdraw CG_RED_FLAGSTATUS
+	}
+}
+	// Red team bottom
+menuDef {
+	fullScreen MENU_FALSE
+	visible MENU_TRUE	
+	rect 5 44 32 256
+	ownerdrawflag CG_SHOW_IF_BLUE_IS_FIRST_PLACE
+
+	itemDef {
+		DEFAULTS_ITEM
+		rect 3 3 130 15 
+		backcolor 1 0 0 0.3
+		style 1
+		background "ui/assets/hud/rteambgl.tga"
+		ownerdrawflag CG_SHOW_RED_TEAM_HAS_BLUEFLAG
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 22 3 130 15 
+		backcolor 1 0 0 0.3
+		style 1
+		background "ui/assets/hud/rteambgr.tga"
+		ownerdrawflag CG_SHOW_RED_TEAM_HAS_BLUEFLAG
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 4 3 22 13
+		backcolor 1 1 1 1
+		style 1
+		cvartest g_gametype
+		showcvar { 3,4 }
+		background "ui/assets/score/ca_score_red.tga"
+	}
+	itemdef {
+		name "redClanPlayers"
+		DEFAULTS_ITEM
+		ownerdraw CG_RED_CLAN_PLYRS  
+		rect 16 14 136 40
+		textscale .22
+		forecolor 1 1 1 0.65
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 3 3 13 13
+		bordercolor 1 1 1 1
+		style 3
+		ownerdrawflag CG_SHOW_HARVESTER                 
+		background "icons/skull_red.tga"
+	}
+	itemDef {
+		rect 6 4 13 13
+		DEFAULTS_ITEM
+		ownerdrawflag CG_SHOW_CTF                       
+		ownerdraw CG_RED_FLAGSTATUS
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 6 4 13 13
+		ownerdraw CG_ONEFLAG_STATUS 
+	}
+}
+	// Blue team top
+menuDef {
+	fullScreen MENU_FALSE
+	visible MENU_TRUE	
+	rect 3 25 32 256
+	ownerdrawflag CG_SHOW_IF_BLUE_IS_FIRST_PLACE
+
+	itemDef {
+		DEFAULTS_ITEM
+		rect 3 3 130 15 
+		backcolor 1 0 0 0.3
+		style 1
+		background "ui/assets/hud/bteambgl.tga"
+		ownerdrawflag CG_SHOW_BLUE_TEAM_HAS_REDFLAG
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 22 3 130 15
+		backcolor 1 0 0 0.3
+		style 1
+		background "ui/assets/hud/bteambgr.tga"
+		ownerdrawflag CG_SHOW_BLUE_TEAM_HAS_REDFLAG
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 5 4 22 12
+		backcolor 1 1 1 1
+		style 1
+		cvartest g_gametype
+		showcvar { 3,4 }
+		background "ui/assets/score/ca_score_blu.tga"
+	}
+    	itemdef {
+		name "blueClanPlayers"
+		DEFAULTS_ITEM
+		ownerdrawflag CG_SHOW_CLAN_ARENA
+		ownerdraw CG_BLUE_CLAN_PLYRS
+		rect 18 14 136 40
+		textscale .22
+		forecolor 1 1 1 0.65
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 3 3 13 13
+		bordercolor 1 1 1 .75
+		style 3
+		ownerdrawflag CG_SHOW_HARVESTER                 
+		background "icons/skull_blue.tga"
+	}
+	itemDef {
+		name "blueflag"
+		rect 8 4 13 13
+		DEFAULTS_ITEM
+		ownerdrawflag CG_SHOW_CTF                    	
+		ownerdraw CG_BLUE_FLAGSTATUS
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 8 4 13 13
+		ownerdraw CG_ONEFLAG_STATUS 
+	}
+}
+	// Blue team bottom
+menuDef {
+	fullScreen MENU_FALSE
+	visible MENU_TRUE	
+	rect 3 45 32 256
+	ownerdrawflag CG_SHOW_IF_RED_IS_FIRST_PLACE
+
+	itemDef {
+		DEFAULTS_ITEM
+		rect 3 1 130 15
+		backcolor 1 0 0 0.3
+		style 1
+		background "ui/assets/hud/bteambgl.tga"
+		ownerdrawflag CG_SHOW_BLUE_TEAM_HAS_REDFLAG
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 22 1 130 15
+		backcolor 1 0 0 0.3
+		style 1
+		background "ui/assets/hud/bteambgr.tga"
+		ownerdrawflag CG_SHOW_BLUE_TEAM_HAS_REDFLAG
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 4 3 22 12
+		backcolor 1 1 1 1
+		style 1
+		cvarTest g_gametype
+		showcvar { 3,4 }
+		background "ui/assets/score/ca_score_blu.tga"
+	}
+	itemdef {
+		name "blueClanPlayers"
+		DEFAULTS_ITEM
+		ownerdrawflag CG_SHOW_CLAN_ARENA
+		ownerdraw CG_BLUE_CLAN_PLYRS  
+		rect 16 14 136 40
+		textscale .22
+		forecolor 1 1 1 0.65
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 3 3 13 13
+		bordercolor 1 1 1 .75
+		style 3
+		ownerdrawflag CG_SHOW_HARVESTER                 
+		background "icons/skull_blue.tga"
+	}
+	itemDef {
+		name "blueflag"
+		DEFAULTS_ITEM
+		rect 6 2 13 13
+		ownerdrawflag CG_SHOW_CTF                    	
+		ownerdraw CG_BLUE_FLAGSTATUS
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 6 2 13 13               	
+		ownerdraw CG_ONEFLAG_STATUS 
+	}
+}
+
+	// Duel/FFA
+menuDef {
+	name "highlight-player"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE	
+	rect 4 25 32 256
+	
+	// Top
+	itemDef {
+		DEFAULTS_ITEM
+     		rect 2 2 16 17 
+		ownerdraw CG_TEAM_COLORIZED
+		ownerdrawflag CG_SHOW_IF_PLYR_IS_FIRST_PLACE
+		style 1
+		background "ui/assets/hud/teamonl.tga"
+	}
+	itemDef {
+		DEFAULTS_ITEM
+     		rect 18 2 118 17 
+		ownerdraw CG_TEAM_COLORIZED
+		ownerdrawflag CG_SHOW_IF_PLYR_IS_FIRST_PLACE
+		style 1
+		background "ui/assets/hud/teamonm.tga"
+	}
+	itemDef {
+		DEFAULTS_ITEM
+		rect 136 2 16 17 
+		ownerdraw CG_TEAM_COLORIZED
+		ownerdrawflag CG_SHOW_IF_PLYR_IS_FIRST_PLACE
+		style 1
+		background "ui/assets/hud/teamonr.tga"
+	}
+	//self bottom highlight
+	itemDef {
+		DEFAULTS_ITEM
+		rect 2 21 16 17
+		ownerdraw CG_TEAM_COLORIZED
+		ownerdrawflag CG_SHOW_IF_PLYR_IS_NOT_FIRST_PLACE
+		style 1
+		background "ui/assets/hud/teamonl.tga"
+	}
+	itemDef {
+     		DEFAULTS_ITEM
+		rect 18 21 118 17
+		ownerdraw CG_TEAM_COLORIZED
+		ownerdrawflag CG_SHOW_IF_PLYR_IS_NOT_FIRST_PLACE
+		style 1
+		background "ui/assets/hud/teamonm.tga"
+	}
+	itemDef {
+     		DEFAULTS_ITEM
+		rect 136 21 16 17
+		ownerdraw CG_TEAM_COLORIZED
+		ownerdrawflag CG_SHOW_IF_PLYR_IS_NOT_FIRST_PLACE
+		style 1
+		background "ui/assets/hud/teamonr.tga"
+	}
+}
+	// Player/Team names
+menuDef {
+	name "1st-2nd-names"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE	
+	rect 3 25 118 40
+	
+	itemdef {
+		DEFAULTS_ITEM
+		ownerdraw CG_1ST_PLACE_SCORE
+		rect 10 15 133 40
+		textscale .23
+	}
+	itemdef {
+		DEFAULTS_ITEM
+		ownerdraw CG_2ND_PLACE_SCORE
+		rect 10 34 133 40
+		textscale .23
+	}
+}
+
+// == HEALTH ==============================================
+menuDef {
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect HEALTH_POS 640 100
+	
+	// Large outside rectangle
+	itemDef {
+		name "bg"
+		DEFAULTS_ITEM
+		VITALS_BG
+		rect 0 0 149 32
+		style 1
+	}
+	// Health bars - This is where it gets a bitch	
+         itemDef {
+		name "bar1"
+                  DEFAULTS_ITEM
+                  rect 3 2	6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+		addColorRange 31 80 COLOUR_LOW .2
+                  addColorRange 81 94 COLOUR_HEALTHY .2
+		addColorRange 95 194 COLOUR_HEALTHY 1
+		addColorRange 195 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar2"
+                  DEFAULTS_ITEM
+                  rect 9 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+		addColorRange 31 80 COLOUR_LOW .2
+                  addColorRange 81 89 COLOUR_HEALTHY .2
+		addColorRange 90 189 COLOUR_HEALTHY 1
+		addColorRange 190 999 COLOUR_STACKED 1
+	}
+	itemDef {
+                  name "bar3"
+		DEFAULTS_ITEM
+                  rect 15 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+		addColorRange 31 80 COLOUR_LOW .2
+                  addColorRange 81 84 COLOUR_HEALTHY .2
+		addColorRange 85 184 COLOUR_HEALTHY 1
+		addColorRange 185 999 COLOUR_STACKED 1
+	}
+	itemDef {
+                  name "bar4"
+		DEFAULTS_ITEM
+                  rect 21 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+                  addColorRange -999 30 COLOUR_CRITICAL .2
+		addColorRange 31 79 COLOUR_LOW .2
+                  addColorRange 80 80 COLOUR_LOW 1
+		addColorRange 81 179 COLOUR_HEALTHY 1
+		addColorRange 180 999 COLOUR_STACKED 1
+	}
+	itemDef {
+                  name "bar5"
+		DEFAULTS_ITEM
+                  rect 27 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 74 COLOUR_LOW .2
+		addColorRange 75 80 COLOUR_LOW 1
+		addColorRange 81 174 COLOUR_HEALTHY 1
+		addColorRange 175 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar6"
+                  DEFAULTS_ITEM
+                  rect 33 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 69 COLOUR_LOW .2
+		addColorRange 70 80 COLOUR_LOW 1
+		addColorRange 81 169 COLOUR_HEALTHY 1
+		addColorRange 170 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar7"
+                  DEFAULTS_ITEM
+                  rect 39 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 64 COLOUR_LOW .2
+		addColorRange 65 80 COLOUR_LOW 1
+		addColorRange 81 164 COLOUR_HEALTHY 1
+		addColorRange 165 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar8"
+                  DEFAULTS_ITEM
+                  rect 45 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 59 COLOUR_LOW .2
+		addColorRange 60 80 COLOUR_LOW 1
+		addColorRange 81 159 COLOUR_HEALTHY 1
+		addColorRange 160 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar9"
+                  DEFAULTS_ITEM
+                  rect 51 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 54 COLOUR_LOW .2
+		addColorRange 55 80 COLOUR_LOW 1
+		addColorRange 81 154 COLOUR_HEALTHY 1
+		addColorRange 155 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar10"
+                  DEFAULTS_ITEM
+                  rect 57 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 49 COLOUR_LOW .2
+		addColorRange 50 80 COLOUR_LOW 1
+		addColorRange 81 149 COLOUR_HEALTHY 1
+		addColorRange 150 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar11"
+                  DEFAULTS_ITEM
+                  rect 63 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 44 COLOUR_LOW .2
+		addColorRange 45 80 COLOUR_LOW 1
+		addColorRange 81 144 COLOUR_HEALTHY 1
+		addColorRange 145 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar12"
+                  DEFAULTS_ITEM
+                  rect 69 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 39 COLOUR_LOW .2
+		addColorRange 40 80 COLOUR_LOW 1
+		addColorRange 81 139 COLOUR_HEALTHY 1
+		addColorRange 140 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar13"
+                  DEFAULTS_ITEM
+                  rect 75 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 34 COLOUR_LOW .2
+		addColorRange 35 80 COLOUR_LOW 1
+		addColorRange 81 134 COLOUR_HEALTHY 1
+		addColorRange 135 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar14"
+                  DEFAULTS_ITEM
+                  rect 81 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+                  addColorRange -999 29 COLOUR_CRITICAL .2
+		addColorRange 30 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 129 COLOUR_HEALTHY 1
+		addColorRange 130 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar15"
+                  DEFAULTS_ITEM
+                  rect 87 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+		addColorRange -999 24 COLOUR_CRITICAL .2
+		addColorRange 25 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 124 COLOUR_HEALTHY 1
+		addColorRange 125 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar16-1"
+                  DEFAULTS_ITEM
+                  rect 93 2 3 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+                  addColorRange -999 19 COLOUR_CRITICAL .2
+		addColorRange 20 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 119 COLOUR_HEALTHY 1
+		addColorRange 120 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar16-2"
+                  DEFAULTS_ITEM
+                  rect 96 2 3 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+                  addColorRange -999 19 COLOUR_CRITICAL .2
+		addColorRange 20 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 119 COLOUR_HEALTHY 1
+		addColorRange 120 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar17"
+                  DEFAULTS_ITEM
+                  rect 99 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+                  addColorRange -999 14 COLOUR_CRITICAL .2
+                  addColorRange 15 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 114 COLOUR_HEALTHY 1
+		addColorRange 115 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar18"
+                  DEFAULTS_ITEM
+                  rect 105 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+                  addColorRange -999 9 COLOUR_CRITICAL .2
+		addColorRange 10 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 109 COLOUR_HEALTHY 1
+		addColorRange 110 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar19"
+                  DEFAULTS_ITEM
+                  rect 111 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+                  addColorRange -999 4 COLOUR_CRITICAL .2
+                  addColorRange 5 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 104 COLOUR_HEALTHY 1
+		addColorRange 105 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar20"
+                  DEFAULTS_ITEM
+                  rect 117 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .5
+                  addColorRange -999 0 COLOUR_CRITICAL .2
+                  addColorRange 1 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 100 COLOUR_HEALTHY 1
+		addColorRange 101 999 COLOUR_STACKED 1
+	}
+	// Health value
+	itemDef {
+		DEFAULTS_ITEM
+                  //rect 76 -57 3 35 // These values will put it above the demo message
+                  rect 76 -38 3 35
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 0 0 0 .8
+		textstyle 3
+		textscale 1
+         }
+	itemDef {
+		DEFAULTS_ITEM
+                  //rect 75 -58 3 35 // These values will put it above the demo message
+                  rect 75 -39 3 35
+                  ownerdraw CG_PLAYER_HEALTH
+                  forecolor 1 1 1 .8
+		textstyle 3
+		textscale 1
+         }
+	// Health icon
+	itemDef {
+		DEFAULTS_ITEM
+	     	rect 128 8 18 18
+		backcolor 0 0 0 0.8
+		style 1
+		background "ui/assets/hud/health.tga"
+	}
+	itemDef {
+	     	DEFAULTS_ITEM
+		rect 127 7 18 18
+		ownerdraw CG_TEAM_COLORIZED
+		style 1
+		background "ui/assets/hud/health.tga"
+	}
+}
+
+// == ARMOUR ==============================================
+menuDef {
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect ARMOUR_POS 640 100
+	
+	// Large outside rectangle
+	itemDef {
+		name "bg"
+		DEFAULTS_ITEM
+		VITALS_BG
+		rect 0 0 149 32
+		style 1
+	}
+	// Armour bars
+         itemDef {
+		name "bar1"
+                  DEFAULTS_ITEM
+                  rect 3 2	6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+		addColorRange 31 80 COLOUR_LOW .2
+                  addColorRange 81 94 COLOUR_HEALTHY .2
+		addColorRange 95 194 COLOUR_HEALTHY 1
+		addColorRange 195 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar2"
+                  DEFAULTS_ITEM
+                  rect 9 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+		addColorRange 31 80 COLOUR_LOW .2
+                  addColorRange 81 89 COLOUR_HEALTHY .2
+		addColorRange 90 189 COLOUR_HEALTHY 1
+		addColorRange 190 999 COLOUR_STACKED 1
+	}
+	itemDef {
+                  name "bar3"
+		DEFAULTS_ITEM
+                  rect 15 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+		addColorRange 31 80 COLOUR_LOW .2
+                  addColorRange 81 84 COLOUR_HEALTHY .2
+		addColorRange 85 184 COLOUR_HEALTHY 1
+		addColorRange 185 999 COLOUR_STACKED 1
+	}
+	itemDef {
+                  name "bar4"
+		DEFAULTS_ITEM
+                  rect 21 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+                  addColorRange -999 30 COLOUR_CRITICAL .2
+		addColorRange 31 79 COLOUR_LOW .2
+                  addColorRange 80 80 COLOUR_LOW 1
+		addColorRange 81 179 COLOUR_HEALTHY 1
+		addColorRange 180 999 COLOUR_STACKED 1
+	}
+	itemDef {
+                  name "bar5"
+		DEFAULTS_ITEM
+                  rect 27 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 74 COLOUR_LOW .2
+		addColorRange 75 80 COLOUR_LOW 1
+		addColorRange 81 174 COLOUR_HEALTHY 1
+		addColorRange 175 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar6"
+                  DEFAULTS_ITEM
+                  rect 33 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 69 COLOUR_LOW .2
+		addColorRange 70 80 COLOUR_LOW 1
+		addColorRange 81 169 COLOUR_HEALTHY 1
+		addColorRange 170 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar7"
+                  DEFAULTS_ITEM
+                  rect 39 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 64 COLOUR_LOW .2
+		addColorRange 65 80 COLOUR_LOW 1
+		addColorRange 81 164 COLOUR_HEALTHY 1
+		addColorRange 165 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar8"
+                  DEFAULTS_ITEM
+                  rect 45 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 59 COLOUR_LOW .2
+		addColorRange 60 80 COLOUR_LOW 1
+		addColorRange 81 159 COLOUR_HEALTHY 1
+		addColorRange 160 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar9"
+                  DEFAULTS_ITEM
+                  rect 51 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 54 COLOUR_LOW .2
+		addColorRange 55 80 COLOUR_LOW 1
+		addColorRange 81 154 COLOUR_HEALTHY 1
+		addColorRange 155 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar10"
+                  DEFAULTS_ITEM
+                  rect 57 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 49 COLOUR_LOW .2
+		addColorRange 50 80 COLOUR_LOW 1
+		addColorRange 81 149 COLOUR_HEALTHY 1
+		addColorRange 150 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar11"
+                  DEFAULTS_ITEM
+                  rect 63 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 44 COLOUR_LOW .2
+		addColorRange 45 80 COLOUR_LOW 1
+		addColorRange 81 144 COLOUR_HEALTHY 1
+		addColorRange 145 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar12"
+                  DEFAULTS_ITEM
+                  rect 69 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 39 COLOUR_LOW .2
+		addColorRange 40 80 COLOUR_LOW 1
+		addColorRange 81 139 COLOUR_HEALTHY 1
+		addColorRange 140 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar13"
+                  DEFAULTS_ITEM
+                  rect 75 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 30 COLOUR_CRITICAL .2
+                  addColorRange 31 34 COLOUR_LOW .2
+		addColorRange 35 80 COLOUR_LOW 1
+		addColorRange 81 134 COLOUR_HEALTHY 1
+		addColorRange 135 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar14"
+                  DEFAULTS_ITEM
+                  rect 81 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+                  addColorRange -999 29 COLOUR_CRITICAL .2
+		addColorRange 30 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 129 COLOUR_HEALTHY 1
+		addColorRange 130 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar15"
+                  DEFAULTS_ITEM
+                  rect 87 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 24 COLOUR_CRITICAL .2
+		addColorRange 25 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 124 COLOUR_HEALTHY 1
+		addColorRange 125 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar16-1"
+                  DEFAULTS_ITEM
+                  rect 93 2 3 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+                  addColorRange -999 19 COLOUR_CRITICAL .2
+		addColorRange 20 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 119 COLOUR_HEALTHY 1
+		addColorRange 120 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar16-2"
+                  DEFAULTS_ITEM
+                  rect 96 2 3 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+                  addColorRange -999 19 COLOUR_CRITICAL .2
+		addColorRange 20 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 119 COLOUR_HEALTHY 1
+		addColorRange 120 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar17"
+                  DEFAULTS_ITEM
+                  rect 99 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+                  addColorRange -999 14 COLOUR_CRITICAL .2
+                  addColorRange 15 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 114 COLOUR_HEALTHY 1
+		addColorRange 115 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar18"
+                  DEFAULTS_ITEM
+                  rect 105 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+                  addColorRange -999 9 COLOUR_CRITICAL .2
+		addColorRange 10 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 109 COLOUR_HEALTHY 1
+		addColorRange 110 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar19"
+                  DEFAULTS_ITEM
+                  rect 111 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+                  addColorRange -999 4 COLOUR_CRITICAL .2
+                  addColorRange 5 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 104 COLOUR_HEALTHY 1
+		addColorRange 105 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar20"
+                  DEFAULTS_ITEM
+                  rect 117 2 6 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .5
+                  addColorRange -999 0 COLOUR_CRITICAL .2
+                  addColorRange 1 30 COLOUR_CRITICAL 1
+		addColorRange 31 80 COLOUR_LOW 1
+		addColorRange 81 100 COLOUR_HEALTHY 1
+		addColorRange 101 999 COLOUR_STACKED 1
+	}
+	// Armour value
+	itemDef {
+		DEFAULTS_ITEM
+                  //rect 76 -57 3 35 // These values will put it above the demo message
+                  rect 76 -38 3 35
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 0 0 0 .8
+		addColorRange -999 0 0 0 0 0
+		addColorRange 1 999 0 0 0 .8
+		textstyle 3
+		textscale 1
+         }
+	itemDef {
+		DEFAULTS_ITEM
+                  //rect 75 -58 3 35 // These values will put it above the demo message
+                  rect 75 -39 3 35
+                  ownerdraw CG_PLAYER_ARMOR_VALUE
+                  forecolor 1 1 1 .8
+		addColorRange -999 0 0 0 0 0
+		addColorRange 1 999 1 1 1 1
+		textstyle 3
+		textscale 1
+         }
+	// Armour icon
+	itemDef {
+		DEFAULTS_ITEM
+	     	rect 127 8 20 18
+		backcolor 0 0 0 0.8
+		style 1
+		background "ui/assets/hud/armor.tga"
+	}
+	itemDef {
+	     	DEFAULTS_ITEM
+		rect 126 7 20 18
+		ownerdraw CG_TEAM_COLORIZED
+		style 1
+		background "ui/assets/hud/armor.tga"
+	}
+}
+
+// == AMMO ================================================
+menuDef {
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect AMMO_POS 640 100
+
+	// Large outside rectangle
+	itemDef {
+		name "bg"
+		DEFAULTS_ITEM
+		VITALS_BG
+		rect 0 0 129 32
+		style 1
+		cvarTest "ch_hidewepbox"
+		hideCvar { 1 }
+	}
+	// Ammo bars
+         itemDef {
+		name "bar1"
+                  DEFAULTS_ITEM
+                  rect 3 2	4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 24 COLOUR_HEALTHY .2
+		addColorRange 25 144 COLOUR_HEALTHY 1
+		addColorRange 145 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar2"
+                  DEFAULTS_ITEM
+                  rect 7 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 23 COLOUR_HEALTHY .2
+                  addColorRange 24 139 COLOUR_HEALTHY 1
+		addColorRange 140 999 COLOUR_STACKED 1
+	}
+	itemDef {
+                  name "bar3"
+		DEFAULTS_ITEM
+                  rect 11 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 22 COLOUR_HEALTHY .2
+                  addColorRange 23 134 COLOUR_HEALTHY 1
+		addColorRange 135 999 COLOUR_STACKED 1
+	}
+	itemDef {
+                  name "bar4"
+		DEFAULTS_ITEM
+                  rect 15 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 21 COLOUR_HEALTHY .2
+                  addColorRange 22 129 COLOUR_HEALTHY 1
+		addColorRange 130 999 COLOUR_STACKED 1
+	}
+	itemDef {
+                  name "bar5"
+		DEFAULTS_ITEM
+                  rect 19 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 20 COLOUR_HEALTHY .2
+                  addColorRange 21 124 COLOUR_HEALTHY 1
+		addColorRange 125 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar6"
+                  DEFAULTS_ITEM
+                  rect 23 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 19 COLOUR_HEALTHY .2
+                  addColorRange 20 119 COLOUR_HEALTHY 1
+		addColorRange 120 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar7"
+                  DEFAULTS_ITEM
+                  rect 27 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 18 COLOUR_HEALTHY .2
+                  addColorRange 19 114 COLOUR_HEALTHY 1
+		addColorRange 115 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar8"
+                  DEFAULTS_ITEM
+                  rect 31 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 17 COLOUR_HEALTHY .2
+                  addColorRange 18 109 COLOUR_HEALTHY 1
+		addColorRange 110 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar9"
+                  DEFAULTS_ITEM
+                  rect 35 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 16 COLOUR_HEALTHY .2
+                  addColorRange 17 104 COLOUR_HEALTHY 1
+		addColorRange 105 999 COLOUR_STACKED 1
+
+	}
+	itemDef {
+		name "bar10"
+                  DEFAULTS_ITEM
+                  rect 39 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 15 COLOUR_HEALTHY .2
+                  addColorRange 16 99 COLOUR_HEALTHY 1
+		addColorRange 100 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar11"
+                  DEFAULTS_ITEM
+                  rect 43 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 14 COLOUR_HEALTHY .2
+                  addColorRange 15 94 COLOUR_HEALTHY 1
+		addColorRange 95 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar12"
+                  DEFAULTS_ITEM
+                  rect 47 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 13 COLOUR_HEALTHY .2
+                  addColorRange 14 89 COLOUR_HEALTHY 1
+		addColorRange 90 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar13"
+                  DEFAULTS_ITEM
+                  rect 51 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 12 COLOUR_HEALTHY .2
+                  addColorRange 13 84 COLOUR_HEALTHY 1
+		addColorRange 85 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar14"
+                  DEFAULTS_ITEM
+                  rect 55 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+                  addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 11 COLOUR_HEALTHY .2
+                  addColorRange 12 79 COLOUR_HEALTHY 1
+		addColorRange 80 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar15"
+                  DEFAULTS_ITEM
+                  rect 59 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 10 COLOUR_HEALTHY .2
+                  addColorRange 11 74 COLOUR_HEALTHY 1
+		addColorRange 75 999 COLOUR_STACKED 1
+	}
+	itemDef {
+		name "bar16-1"
+                  DEFAULTS_ITEM
+                  rect 63 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+		addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 9 COLOUR_HEALTHY .2
+                  addColorRange 10 69 COLOUR_HEALTHY 1
+		addColorRange 70 999 COLOUR_STACKED 1	
+	}
+	itemDef {
+		name "bar17"
+                  DEFAULTS_ITEM
+                  rect 67 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+         	addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 8 COLOUR_HEALTHY .2
+                  addColorRange 9 64 COLOUR_HEALTHY 1
+		addColorRange 65 999 COLOUR_STACKED 1	
+	}
+	itemDef {
+		name "bar18"
+                  DEFAULTS_ITEM
+                  rect 71 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+         	addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 7 COLOUR_HEALTHY .2
+                  addColorRange 8 59 COLOUR_HEALTHY 1
+		addColorRange 60 999 COLOUR_STACKED 1	
+	}
+	itemDef {
+		name "bar19"
+                  DEFAULTS_ITEM
+                  rect 75 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+         	addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 6 COLOUR_HEALTHY .2
+                  addColorRange 7 54 COLOUR_HEALTHY 1
+		addColorRange 55 999 COLOUR_STACKED 1	
+	}
+	itemDef {
+		name "bar20"
+                  DEFAULTS_ITEM
+                  rect 79 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+         	addColorRange -999 5 COLOUR_CRITICAL .2
+		addColorRange 6 49 COLOUR_HEALTHY 1
+		addColorRange 50 999 COLOUR_STACKED 1	
+	}	
+	itemDef {
+		name "bar21"
+                  DEFAULTS_ITEM
+                  rect 83 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+         	addColorRange -999 4 COLOUR_CRITICAL .2
+		addColorRange 5 5 COLOUR_CRITICAL 1
+		addColorRange 6 44 COLOUR_HEALTHY 1
+		addColorRange 45 999 COLOUR_STACKED 1	
+	}
+	itemDef {
+		name "bar22"
+                  DEFAULTS_ITEM
+                  rect 87 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+                  addColorRange -999 3 COLOUR_CRITICAL .2
+		addColorRange 4 5 COLOUR_CRITICAL 1
+                  addColorRange 6 39 COLOUR_HEALTHY 1
+		addColorRange 40 999 COLOUR_STACKED 1	
+	}
+	
+	itemDef {
+		name "bar23"
+                  DEFAULTS_ITEM
+                  rect 91 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+                  addColorRange -999 2 COLOUR_CRITICAL .2
+		addColorRange 3 5 COLOUR_CRITICAL 1
+                  addColorRange 6 34 COLOUR_HEALTHY 1
+		addColorRange 35 999 COLOUR_STACKED 1	
+	}
+	
+	itemDef {
+		name "bar24"
+                  DEFAULTS_ITEM
+                  rect 95 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+         	addColorRange -999 1 COLOUR_CRITICAL .2
+		addColorRange 2 5 COLOUR_CRITICAL 1
+                  addColorRange 6 29 COLOUR_HEALTHY 1
+		addColorRange 30 999 COLOUR_STACKED 1	
+	}
+	
+	itemDef {
+		name "bar25"
+                  DEFAULTS_ITEM
+                  rect 99 2 4 28
+                  style 1
+                  background "ui/assets/score/statsfillm"
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .5
+         	addColorRange -999 0 COLOUR_CRITICAL .2
+		addColorRange 1 5 COLOUR_CRITICAL 1
+                  addColorRange 6 25 COLOUR_HEALTHY 1
+		addColorRange 26 999 COLOUR_STACKED 1	
+	}
+	// Ammo value
+	itemDef {
+		DEFAULTS_ITEM
+                  //rect 66 -38 3 35 // These values will put it above the demo message
+                  rect 66 -38 3 35
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 0 0 0 .8
+		textstyle 3
+		textscale 1
+         }
+	itemDef {
+		DEFAULTS_ITEM
+                  //rect 65 -39 3 35 // These values will put it above the demo message
+                  rect 65 -39 3 35
+                  ownerdraw CG_PLAYER_AMMO_VALUE
+                  forecolor 1 1 1 .8
+		textstyle 3
+		textscale 1
+         }
+	// Ammo icon
+	itemDef {
+		DEFAULTS_ITEM
+	     	rect 107 7 18 18
+		ownerdraw CG_PLAYER_AMMO_ICON2D	// CG_PLAYER_AMMO_ICON for 3D icon
+	}
+}
+
+// == CTF =================================================
+// Flag
+menuDef {
+	name "ctfflag"
+	DEFAULTS_MENU
+	rect 597 160 40 40
+
+	itemDef {
+		DEFAULTS_ITEM
+		name "flag"
+		rect 0 0 40 40
+		style 1
+		ownerdraw CG_PLAYER_HASFLAG2D
+	}
+}
+// Medkit etc
+
+menuDef {
+	DEFAULTS_MENU
+	rect 0 260 40 40
+	
+	itemDef {
+		DEFAULTS_ITEM
+		name "playeritem"
+		rect 0 0 25 25
+		ownerdraw CG_PLAYER_ITEM  
+	}
+}
+
+// == Player Pickups ======================================
+menuDef {
+	name "powerup"
+	DEFAULTS_MENU
+	rect 570 220 50 80
+
+	itemDef {
+		name "powerupArea"
+		rect -20 0 55 35
+		visible 1
+		decoration
+		ownerdraw CG_AREA_POWERUP
+		special 4			// spacing
+		align HUD_VERTICAL
+	}
+}
+menuDef {
+    	DEFAULTS_MENU
+	name "pickups"
+    	rect 607 447 385 32
+
+	itemDef {
+		DEFAULTS_ITEM
+		name "CTFPOWERUP"
+		rect 0 0 30 30
+		ownerdraw CG_CTF_POWERUP
+	}
+}
+// == OBITUARIES ==========================================
+
+menuDef {
+	DEFAULTS_MENU
+	rect 8 15 160 32
+
+	itemDef {
+		DEFAULTS_ITEM
+		ownerdraw CG_PLAYER_OBIT
+		ownerdrawflag CG_SHOW_ANYNONTEAMGAME
+		rect 0 0 160 32
+		textscale .23
+		DROPSHADOWTEXT
+	}
+
+	itemDef {
+		DEFAULTS_ITEM
+		ownerdraw CG_PLAYER_OBIT
+		ownerdrawflag CG_SHOW_CLAN_ARENA
+		rect 0 0 160 32
+		textscale .3
+		DROPSHADOWTEXT
+	}
+
+	itemDef {
+		DEFAULTS_ITEM
+		ownerdraw CG_PLAYER_OBIT
+		ownerdrawFlag CG_SHOW_CTF
+		rect 0 0 160 32
+		textscale 0.3
+		DROPSHADOWTEXT
+	}
+
+	itemDef {
+		DEFAULTS_ITEM
+		ownerdraw CG_PLAYER_OBIT
+		cvarTest "g_gametype"
+		showCvar { "3" }
+		rect 0 0 160 32
+		textscale 0.3
+		DROPSHADOWTEXT
+	}
+
+}
+
+// == TIMER ===============================================
+// Should change places depending on solo/team gametype, to avoid default team overlay
+
+menuDef	{
+	name "teamclock"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	ownerdrawflag CG_SHOW_ANYTEAMGAME
+	rect 169 55 122 36
+
+	itemDef {
+		DEFAULTS_ITEM
+		name		"background"
+		rect		-10 -30 145 40
+		backcolor	0 0.5 1 0.4
+		style		1
+		cvarTest		g_gametype
+		hideCvar		{ 4 }
+	}
+		
+	itemDef {
+		DEFAULTS_ITEM
+		name 		"teamtimer"
+		textalign 	2
+		style 		0
+		rect 		0 6 50 15
+		textstyle 	3
+		forecolor 	1 1 1 1
+		textscale 	.9
+		ownerdraw	CG_LEVELTIMER
+		cvarTest		g_gametype
+		hideCvar		{ 4 }
+	}
+}
+
+menuDef	{
+	name "soloclock"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	ownerdrawflag CG_SHOW_ANYNONTEAMGAME
+	rect 295 60 122 36
+	
+	itemDef {
+		DEFAULTS_ITEM
+		name		"background"
+		rect		-10 -38 146 44
+		backcolor	0 0.5 1 0.4
+		style		1
+	}
+	
+	itemDef {
+		DEFAULTS_ITEM
+		name		"solotimer"
+		textalign	2
+		style		0
+		rect		0 0 50 15
+		textstyle	3
+		forecolor	1 1 1 1
+		textscale	.9
+		ownerdraw	CG_LEVELTIMER
+	}
+}
+// Mini timer to sit below the cg_drawItemPickups message - the cvar is disabled @ LAN so this eases the habit
+menuDef	{
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+
+	itemDef {
+		DEFAULTS_ITEM
+		name "timer-mini"
+		textalign 2
+		style 0
+		rect 1 390 50 15
+		visible 1
+		textstyle 3
+		decoration
+		forecolor 1 1 1 .8
+		textscale .275
+		ownerdraw CG_LEVELTIMER
+		cvarTest "ch_hideminitimer"
+		hideCvar	{ 1 }
+	}
+}
+
+// == CHAT AREA ===========================================
+menuDef {
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect 0 0 32 256
+
+	itemDef {
+		name "chatbg-left"
+		DEFAULTS_ITEM
+		ownerdrawflag CG_SHOW_IF_CHAT_VISIBLE
+		backcolor 0 0 0 0.5
+		style 1
+		background "ui/assets/hud/chatl.tga"
+		rect 3 345 16 64 
+	}
+	itemDef {
+		name "chatbg"
+		ownerdrawflag CG_SHOW_IF_CHAT_VISIBLE
+		backcolor 0 0 0 0.5
+		style 1
+		background "ui/assets/hud/chatm.tga"
+		rect 19 345 601 64
+	}
+	itemDef {
+		name "chatbg-right"
+		DEFAULTS_ITEM
+		ownerdrawflag CG_SHOW_IF_CHAT_VISIBLE
+		backcolor 0 0 0 0.5
+		style 1
+		background "ui/assets/hud/chatr.tga"
+		rect 620 345 16 64
+	}
+	itemdef {
+		name "chat-area"
+		DEFAULTS_ITEM
+		ownerdraw CG_AREA_NEW_CHAT
+		rect 6 287 634 120
+	}
+}
+
+//------------------------------------------------------------------------------------
+// Flag warnings
+//------------------------------------------------------------------------------------
+menuDef {
+    	name "FLAG warnings"
+    	fullScreen MENU_FALSE	
+    	visible MENU_TRUE	
+    	rect 420 -40 120 40
+
+	itemDef {
+      name "text YOUR TEAM GOT ENEMYS FLAG"
+      rect -220 435 23 23 // Change this to move the TEAMGOTFLAGMSG position
+      visible 1
+      decoration
+	forecolor 0 1 0 1
+	textstyle 3
+	textscale .4
+	text "ESCORT"
+      ownerdrawflag CG_SHOW_YOURTEAMHASENEMYFLAG
+    	}
+
+	itemDef {
+      name "text ENEMY GOT YOUR FLAG"
+      rect -65 435 23 23 // Change this to move the ENEMYFLAGMSG position
+      visible 1
+      decoration
+	forecolor 1 0 0 1
+	textstyle 3
+	textscale .4
+	text "RETURN"
+      ownerdrawflag CG_SHOW_OTHERTEAMHASFLAG
+    	}
+}
+menuDef {
+    	name "FLAG warnings"
+    	fullScreen MENU_FALSE	
+    	visible MENU_TRUE	
+    	rect 420 -40 120 40
+
+	itemDef {
+      name "text YOUR TEAM GOT ENEMYS FLAG"
+      rect -220 435 23 23 // Change this to move the TEAMGOTFLAGMSG position
+      visible 1
+      decoration
+	forecolor 0 1 0 1
+	textstyle 1
+	textscale .4
+	text "ESCORT"
+      ownerdrawflag CG_SHOW_YOURTEAMHASENEMYFLAG
+    	}
+
+	itemDef {
+      name "text ENEMY GOT YOUR FLAG"
+      rect -65 435 23 23 // Change this to move the ENEMYFLAGMSG position
+      visible 1
+      decoration
+	forecolor 1 0 0 1
+	textstyle 1
+	textscale .4
+	text "RETURN"
+      ownerdrawflag CG_SHOW_OTHERTEAMHASFLAG
+    	}
+}

@@ -1,0 +1,811 @@
+#include "ui/menudef.h"
+
+// by tg #dots @ irc.quakenet.org
+
+// Weapons
+
+menuDef {	
+    	name "Ammo"
+    	fullScreen MENU_FALSE
+    	visible MENU_TRUE
+    	rect 270 380 99 36
+	
+itemDef {
+     	name "WeaponIcon"
+	rect 35 30 30 30
+	visible 1
+	decoration
+	ownerdraw CG_PLAYER_AMMO_ICON2D
+	}	
+
+itemDef {
+ 	name "AmmoText"
+	rect 20 15 63 12
+	visible 1
+	textstyle 3
+	decoration
+	textscale .8
+	forecolor 1 1 1 0.8
+	ownerdraw CG_PLAYER_AMMO_VALUE
+	addColorRange -999 2 1 0 0 1
+	addColorRange 3 5 1 0.75 0 1
+	addColorRange 6 999 1 1 1 1
+	}
+}
+
+// Health Indicator \\___________________________________________
+menuDef {
+  name "healthIndicator"
+  fullScreen MENU_FALSE
+  visible MENU_TRUE
+  rect 130 430 150 50
+  widescreen 2
+
+  itemDef {
+    name "healthIndicatorBox"
+    visible 1
+    rect 1.5 0 150 50
+    style WINDOW_STYLE_FILLED
+    ownerdraw CG_PLAYER_HEALTH
+    background "ui/assets/hud/weapidle1"
+    addColorRange -999 34 1 0 0 1
+    addColorRange 35 80 1 0.5 0 1
+    addColorRange 81 999 0 1 0 1
+    widescreen 2
+  }
+  itemDef {
+    name "healthIndicatorBox"
+    visible 1
+    rect 1.5 0 150 50
+    style WINDOW_STYLE_FILLED
+    ownerdraw CG_PLAYER_HEALTH
+    background "ui/assets/hud/weapidle1"
+    addColorRange -999 34 1 0 0 1
+    addColorRange 35 80 1 0.5 0 1
+    addColorRange 81 999 0 1 0 1
+    widescreen 2
+  }
+  itemDef {
+    name "healthIndicatorBox"
+    visible 1
+    rect 1.5 0 150 50
+    style WINDOW_STYLE_FILLED
+    ownerdraw CG_PLAYER_HEALTH
+    background "ui/assets/hud/weapidle1"
+    addColorRange -999 34 1 0 0 1
+    addColorRange 35 80 1 0.5 0 1
+    addColorRange 81 999 0 1 0 1
+    widescreen 2
+  }
+  itemDef {
+    name "healthIndicatorBox"
+    visible 1
+    rect 1.5 0 150 50
+    style WINDOW_STYLE_FILLED
+    ownerdraw CG_PLAYER_HEALTH
+    background "ui/assets/hud/weapidle1"
+    addColorRange -999 34 1 0 0 1
+    addColorRange 35 80 1 0.5 0 1
+    addColorRange 81 999 0 1 0 1
+    widescreen 2
+  }
+  itemDef {
+    name "healthIndicatorCounter"
+    visible 1
+    rect 80 45 0 0
+    forecolor 1 1 1 1
+    textscale 1.2
+    textstyle 3
+    decoration
+    ownerdraw CG_PLAYER_HEALTH
+    widescreen 2
+  }
+}
+
+//¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+// Armor Indicator \\____________________________________________
+menuDef {
+  name "armorIndicator"
+  fullScreen MENU_FALSE
+  visible MENU_TRUE
+  rect 355 430 150 50
+  widescreen 2
+
+  itemDef {
+    name "armorIndicatorBox"
+    visible 1
+    rect 1.5 0 150 50
+    style WINDOW_STYLE_FILLED
+    ownerdraw CG_PLAYER_ARMOR_VALUE
+    background "ui/assets/hud/weapidle1"
+    addColorRange -999 0 0 0 0 0
+    addColorRange 1 100 0.2 0.2 1 1
+    addColorRange 101 999 0 1 0 1
+    widescreen 2
+  }
+  itemDef {
+    name "armorIndicatorBox"
+    visible 1
+    rect 1.5 0 150 50
+    style WINDOW_STYLE_FILLED
+    ownerdraw CG_PLAYER_ARMOR_VALUE
+    background "ui/assets/hud/weapidle1"
+    addColorRange -999 0 0 0 0 0
+    addColorRange 1 100 0.2 0.2 1 1
+    addColorRange 101 999 0 1 0 1
+    widescreen 2
+  }
+  itemDef {
+    name "armorIndicatorBox"
+    visible 1
+    rect 1.5 0 150 50
+    style WINDOW_STYLE_FILLED
+    ownerdraw CG_PLAYER_ARMOR_VALUE
+    background "ui/assets/hud/weapidle1"
+    addColorRange -999 0 0 0 0 0
+    addColorRange 1 100 0.2 0.2 1 1
+    addColorRange 101 999 0 1 0 1
+    widescreen 2
+  }
+  itemDef {
+    name "armorIndicatorBox"
+    visible 1
+    rect 1.5 0 150 50
+    style WINDOW_STYLE_FILLED
+    ownerdraw CG_PLAYER_ARMOR_VALUE
+    background "ui/assets/hud/weapidle1"
+    addColorRange -999 0 0 0 0 0
+    addColorRange 1 100 0.2 0.2 1 1
+    addColorRange 101 999 0 1 0 1
+    widescreen 2
+  }
+
+  itemDef {
+    name "armorIndicatorCounter"
+    visible 1
+    rect 80 45 0 0
+    forecolor 1 1 1 1
+    textscale 1.2
+    textstyle 3
+    decoration
+    ownerdraw CG_PLAYER_ARMOR_VALUE
+    addColorRange -999 0 0 0 0 0
+    addColorRange 1 999 1 1 1 1
+    widescreen 2
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+
+
+// Timer top mid
+
+menuDef {
+	name "REDclock"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_RED
+	visible 1
+	
+	itemDef {
+		name      "timerfg"
+		decoration
+		rect      210 0 250 45
+		visible   1
+		backcolor 1 0.2 0 0.5
+		style     2
+	}
+	
+	itemDef {
+		name      "timerfg"
+		decoration
+		rect      -10 342 60 15
+		visible   0
+		backcolor 1 0.2 0 0.5
+		style     2
+	}
+
+	itemDef {
+		name "Timer"
+		textalign 2
+		style 0
+		rect 280 38 50 12
+		visible 1
+		textstyle 3
+		decoration
+		forecolor 1 1 1 1
+		textscale 1
+		ownerdraw CG_LEVELTIMER
+	}
+	
+
+}
+
+menuDef {
+	name "BLUEclock"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_BLUE
+	visible 1
+	
+	itemDef {
+		name      "timerfg"
+		decoration
+		rect      210 0 250 45
+		visible   1
+		backcolor 0 0.2 1 0.5
+		style     2
+	}
+	
+	itemDef {
+		name      "timerfg"
+		decoration
+		rect      -10 342 60 15
+		visible   0
+		backcolor 0 0.2 1 0.5
+		style     2
+	}
+
+	itemDef {
+		name "Timer"
+		textalign 2
+		style 0
+		rect 280 38 50 12
+		visible 1
+		textstyle 3
+		decoration
+		forecolor 1 1 1 1
+		textscale 1
+		ownerdraw CG_LEVELTIMER
+	}
+	
+
+}
+
+menuDef {
+	name "soloclock"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	ownerdrawflag CG_SHOW_ANYNONTEAMGAME
+	visible 1
+	
+	itemDef {
+		name      "timerfg"
+		decoration
+		rect      210 0 250 45
+		visible   1
+		backcolor 0 0.5 1 0.4
+		style     2
+	}
+	
+	itemDef {
+		name      "timerfg"
+		decoration
+		rect      -10 342 60 15
+		visible   0
+		backcolor 0 0.5 1 0.4
+		style     2
+	}
+
+	itemDef {
+		name "Timer"
+		textalign 2
+		style 0
+		rect 280 38 50 12
+		visible 1
+		textstyle 3
+		decoration
+		forecolor 1 1 1 1
+		textscale 1
+		ownerdraw CG_LEVELTIMER
+	}
+	
+
+}
+
+
+// Shamelessly stolen from hazard
+
+menuDef {
+    	name "FLAG warnings"
+    	fullScreen MENU_FALSE	
+    	visible MENU_TRUE	
+	rect 290 0 800 600
+
+itemDef {
+	name "text YOUR TEAM GOT ENEMYS FLAG"
+	rect 0 357 23 23
+	visible 1
+	decoration
+	forecolor 0 1 0 1
+	textstyle 3
+	textscale .3
+	text "ESCORT"
+	ownerdrawflag CG_SHOW_YOURTEAMHASENEMYFLAG
+    	}
+
+itemDef {
+	name "text ENEMY GOT YOUR FLAG"
+	rect 0 370 23 23
+	visible 1
+	decoration
+	forecolor 1 0 0 1
+	textstyle 3
+	textscale .3
+	text "RETURN"
+	ownerdrawflag CG_SHOW_OTHERTEAMHASFLAG
+    	}
+
+
+}
+
+
+// Player has the flag
+menuDef {
+    	name "playerHasFlag"
+    	fullScreen MENU_FALSE
+    	visible MENU_TRUE
+	rect 0 0 800 600 // 300 310 385 32
+    	
+	itemDef {
+      	name "flag"
+        rect 530 425 45 45
+	visible 1
+	decoration
+	style 1
+	ownerdraw CG_PLAYER_HASFLAG2D 
+	}
+
+	itemDef {
+      	name "skulls"
+        rect 550 425 34 34
+	visible 1
+	decoration
+	textaligny 12
+	textalignx 0
+	textscale 0.333
+	textstyle 3
+	ownerdraw CG_HARVESTER_SKULLS
+	}
+}
+
+
+// Items and Powerups
+
+menuDef {
+	name "powerup"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect 560 220 50 80
+
+itemDef {
+	name "powerupArea"
+	rect 0 0 35 35
+    	visible 1
+	decoration
+	ownerdraw CG_AREA_POWERUP
+	special 4			// spacing
+	align HUD_VERTICAL
+	}
+}
+
+menuDef {
+    	name "medkit"
+    	fullScreen MENU_FALSE
+    	visible MENU_TRUE
+	rect 0 0 800 600
+
+itemDef {
+	name "playeritem"
+       	rect 5 430 40 40
+	visible 1
+	decoration
+	ownerdraw CG_PLAYER_ITEM  
+	style 2
+	}
+}
+
+menuDef {
+    	name "pickups"
+    	fullScreen MENU_FALSE
+    	visible MENU_TRUE
+    	rect 620 430 385 32
+
+itemDef {
+	name "CTFPOWERUP"
+       	rect 0 20 20 20
+	visible 1
+	decoration
+	ownerdraw CG_CTF_POWERUP
+	style 2
+	}
+}
+
+
+// Graphical obits
+
+menuDef {
+	name "obit area"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect 0 0 800 600
+
+itemdef {
+	name hudObit
+	ownerdraw CG_PLAYER_OBIT
+   	rect 6 40 160 32
+   	visible 1
+	decoration
+	textscale .3
+	ownerdrawflag CG_SHOW_CTF
+	}
+
+itemdef {
+	name hudObit
+	ownerdraw CG_PLAYER_OBIT
+   	rect 6 40 160 32
+   	visible 1
+	decoration
+	textscale .3
+	cvarTest "g_gametype" // TDM
+	showCvar {"3"}
+	}
+
+itemdef {
+	name hudObit
+	ownerdraw CG_PLAYER_OBIT
+   	rect 6 410 160 32
+   	visible 1
+	decoration
+	textscale .4
+	ownerdrawflag CG_SHOW_CLAN_ARENA
+	}
+}
+
+
+// Graphical obits FFA and DUEL	
+
+menuDef {	
+	name "obit area"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect 6 60 160 32
+	ownerdrawflag CG_SHOW_ANYNONTEAMGAME
+
+itemdef {
+	name hudObit
+	ownerdraw CG_PLAYER_OBIT
+   	rect 0 0 160 32
+   	visible 1
+	decoration
+	textscale .3
+	}
+}
+
+
+// Rounds in CA
+
+menuDef {	
+	name "rounds"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect 0 0 800 600
+
+itemDef {
+	name "scoreLimit"
+	rect 10 470 0 0
+	visible MENU_TRUE
+	visible 1
+	textscale 0.2
+	forecolor 1 1 1 .5
+	decoration
+	ownerdraw CG_CAPFRAGLIMIT
+	ownerdrawflag CG_SHOW_CLAN_ARENA
+	}
+}
+
+
+// Chat boxes
+
+menuDef {
+	name "chat area"
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	rect 0 0 32 256
+
+itemdef {
+	name chatWindow
+	ownerdraw CG_AREA_NEW_CHAT
+	rect 10 266 634 120
+	visible 1
+	decoration
+	}
+}
+
+// Scoreboard
+menuDef {
+    	name "Team scores"
+    	fullScreen MENU_FALSE
+    	visible MENU_TRUE	
+    	rect 0 0 160 40
+	ownerdrawflag CG_SHOW_ANYTEAMGAME
+
+	itemDef {
+     	name "Teambox"
+	rect 0 0 78 24
+	visible 1
+	style 1
+	decoration
+	backcolor 1 0 0 .2
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_RED
+	}
+
+    	itemdef {
+	name "Team score"
+	ownerdraw CG_RED_SCORE
+   	rect 27 21 35 20
+	align 1
+   	visible 1
+	forecolor 1 1 1 1 // was black 0 0 0
+	textscale .5
+	decoration
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_RED
+	}
+
+	itemDef {
+	name "Team Flagicon"
+	rect 42 0 36 24
+	visible 1
+	decoration
+	ownerdraw CG_RED_FLAGSTATUS
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_RED
+	}
+
+	itemDef {
+     	name "Enemybox"
+	rect 82 0 78 24
+	visible 1
+	style 1
+	decoration
+	backcolor 0 0 1 .2
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_RED
+	}
+
+    	itemdef {
+	name "Enemy score"
+	ownerdraw CG_BLUE_SCORE
+   	rect 110 21 35 20
+	align 1
+   	visible 1
+	forecolor 1 1 1 1 // was black 0 0 0
+	textscale .5
+	decoration
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_RED
+	}
+
+	itemDef {
+	name "Enemy Flagicon"
+	rect 124 0 36 24
+	visible 1
+	decoration
+	ownerdraw CG_BLUE_FLAGSTATUS
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_RED
+	}
+
+	itemDef {
+     	name "Teambox"
+	rect 0 0 78 24
+	visible 1
+	style 1
+	decoration
+	backcolor 0 0 1 .2
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_BLUE
+	}
+
+    	itemdef {
+	name "Team score"
+	ownerdraw CG_BLUE_SCORE
+   	rect 27 21 35 20
+	align 1
+   	visible 1
+	forecolor 1 1 1 1 // was black 0 0 0 
+	textscale .5
+	decoration
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_BLUE
+	}
+
+	itemDef {
+	name "Team Flagicon"
+	rect 42 0 36 24
+	visible 1
+	decoration
+	ownerdraw CG_BLUE_FLAGSTATUS
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_BLUE
+	}
+
+	itemDef {
+     	name "Enemybox"
+	rect 82 0 78 24
+	visible 1
+	style 1
+	decoration
+	backcolor 1 0 0 .2
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_BLUE
+	}
+
+    	itemdef {
+	name "Enemy score"
+	ownerdraw CG_RED_SCORE
+   	rect 110 21 35 20
+	align 1
+   	visible 1
+	forecolor 1 1 1 1 // was black 0 0 0 
+	textscale .5
+	decoration
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_BLUE
+	}
+
+	itemDef {
+	name "Enemy Flagicon"
+	rect 124 0 36 24
+	visible 1
+	decoration
+	ownerdraw CG_RED_FLAGSTATUS
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_BLUE
+	}
+
+	// ca player counts
+	itemDef {
+	name "redClanPlayers"
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_RED
+	ownerdraw CG_RED_CLAN_PLYRS  
+   	rect 42 39 36 36
+   	visible 1
+	textscale 1
+	forecolor 1 1 1 .6
+	decoration
+	}
+
+    	itemDef {
+	name "bluClanPlayers"
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_RED
+	ownerdraw CG_BLUE_CLAN_PLYRS  
+   	rect 124 39 36 36
+   	visible 1
+	textscale 1
+	forecolor 1 1 1 .6
+	decoration
+	}
+
+	itemDef {
+	name "bluClanPlayers"
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_BLUE
+	ownerdraw CG_BLUE_CLAN_PLYRS  
+   	rect 42 39 36 36
+   	visible 1
+	textscale 1
+	forecolor 1 1 1 .6
+	decoration
+	}
+
+    	itemDef {
+	name "redClanPlayers"
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_ON_BLUE
+	ownerdraw CG_RED_CLAN_PLYRS  
+   	rect 124 39 36 36
+   	visible 1
+	textscale 1
+	forecolor 1 1 1 .6
+	decoration
+	}
+}
+
+// Scoreboard in Non team games
+menuDef {
+	name "NonTeamScoreboxes"
+	rect 0 18 640 480
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	ownerdrawflag CG_SHOW_ANYNONTEAMGAME
+
+	itemDef {
+	rect 610 418 28 16
+	visible 1
+ 	ownerdrawflag CG_SHOW_IF_PLYR_IS_FIRST_PLACE
+	backcolor 1 0 0 0.5
+	style 1
+	}
+
+	itemDef {
+	rect 610 438 28 16
+	visible 1
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_FIRST_PLACE
+	backcolor 0.2 0.35 1 0.5
+	style 1
+	}
+
+	itemDef {
+	rect 610 418 28 16
+	visible 1
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_NOT_FIRST_PLACE  
+	backcolor 0.2 0.35 1 0.5
+	style 1
+	}
+	
+	itemDef {
+	rect 610 438 28 16
+	visible 1
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_NOT_FIRST_PLACE
+	backcolor 1 0 0 0.5
+	style 1
+	}
+
+	itemDef {
+	name "OpponentInFirst"
+	ownerdraw CG_1STPLACE
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_NOT_FIRST_PLACE
+	rect 617 431 30 20
+	visible 1
+	textscale .25
+	decoration
+	}
+
+	itemDef {
+	name "OpponentTrailingMe"
+	ownerdraw CG_2NDPLACE
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_FIRST_PLACE
+	rect 618 451 30 20
+	visible 1
+	textscale .25
+	decoration
+	}
+
+	itemDef {
+	name "MyScoreWhenTrailing"
+	ownerdraw CG_PLAYER_SCORE
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_NOT_FIRST_PLACE 
+	rect 617 451 30 20
+	visible 1
+	textscale .25
+	decoration
+	}
+
+	itemDef {
+	name "MyScoreWhenInFirst"
+	ownerdraw CG_PLAYER_SCORE
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_FIRST_PLACE 
+	rect 617 431 30 20
+	visible 1
+	textscale .25
+	decoration
+	}
+}
+
+menuDef {
+	name "NonTeamScoreBoardBorders"
+	rect -2 16 0 0
+	fullScreen MENU_FALSE
+	visible MENU_TRUE
+	ownerdrawflag CG_SHOW_ANYNONTEAMGAME
+
+	itemDef {
+	name "Border1"
+	visible 1
+	rect 608 416 32 20
+	border WINDOW_BORDER_FULL
+	bordersize 2
+	bordercolor 0.8 0.8 0.3 1
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_FIRST_PLACE
+	}
+
+	itemDef {
+	name "Border2"
+	visible 1
+	rect 608 436 32 20
+	border WINDOW_BORDER_FULL
+	bordersize 2
+	bordercolor 0.8 0.8 0.3 1
+	ownerdrawflag CG_SHOW_IF_PLYR_IS_NOT_FIRST_PLACE
+	}    
+}

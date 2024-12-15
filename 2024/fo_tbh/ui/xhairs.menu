@@ -1,0 +1,355 @@
+#include "ui/menudef.h"
+//------------------------------------------------------------------------------------
+// Custom Crosshairs
+//------------------------------------------------------------------------------------
+
+menuDef {
+		name       "xhair"
+		rect       304 224 64 36
+		fullScreen MENU_FALSE
+		visible    MENU_TRUE
+		itemdef {
+			name          "circle"
+			rect          -4 -4 40 40	 //0 0 32 32 //-2 -2 36 36 //-4 -4 40 40
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshairCircle"
+		showCvar { 1 }
+		decoration
+			background    "gfx/2d/crosshaire.png" //a or e
+		backcolor 1 1 1 1
+		}
+	}
+
+menuDef {
+    name "Crosshair"
+    rect 320 240 32 32
+    fullScreen MENU_FALSE
+    visible MENU_TRUE
+
+//------------------------------------------------------------------------------------
+// Custom Crosshair "smaller, +" 0.2
+//------------------------------------------------------------------------------------
+
+	itemDef {
+		name "Vertical-Top"
+		rect -1.5 -4.5		3 9
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 22 27 32 37 82 87 }
+		decoration
+		backcolor 0 0 0 1 // BLACK BORDER
+		}
+
+		
+	itemDef {
+		name "Horizontal-Left"
+		rect -4.5 -1.5		9 3
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 22 27 32 37 82 87 }
+		decoration
+		backcolor 0 0 0 1 //BLACK BORDER
+		}
+	
+	itemDef {
+		name "Vertical-Top"
+		rect -1.5 -4.5		3 9
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 52 57 }
+		decoration
+		backcolor 1 1 1 1 // WHITE BORDER
+		}
+
+		
+	itemDef {
+		name "Horizontal-Left"
+		rect -4.5 -1.5		9 3
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 52 57}
+		decoration
+		backcolor 1 1 1 1 //WHITE BORDER
+		}
+	
+	itemDef {
+		name "Vertical-Top"
+		rect -1.5 -4.5		3 9
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 72 77 }
+		decoration
+		backcolor 1 0 0 1 // WHITE BORDER
+		}
+
+		
+	itemDef {
+		name "Horizontal-Left"
+		rect -4.5 -1.5		9 3
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 72 77 }
+		decoration
+		backcolor 1 0 0 1 //WHITE BORDER
+		}
+				
+	itemDef {
+		name "red vertical"
+		rect -1 -4		2 8
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 22 27 }
+		decoration
+		backcolor 1 1 1 1 //MAIN COLOR
+		}
+
+		
+	itemDef {
+		name "red horizontal"
+		rect -4 -1		8 2
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 22 27 }
+		decoration
+		backcolor 1 1 1 1 //MAIN COLOR
+		}		
+	
+	itemDef {
+		name "red vertical"
+		rect -1 -4		2 8
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 32 37 52 57 }
+		decoration
+		backcolor 1 0 0 1 //RED COLOR
+		}
+
+		
+	itemDef {
+		name "red horizontal"
+		rect -4 -1		8 2
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 32 37 52 57 }
+		decoration
+		backcolor 1 0 0 1 //RED COLOR
+		}
+
+	itemDef {
+		name "red vertical BIG"
+		rect -1 -4.5		2 9
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 92 97 102 107}
+		decoration
+		backcolor 1 0 0 1 //RED COLOR
+		}
+
+		
+	itemDef {
+		name "red horizontal BIG"
+		rect -4.5 -1		9 2
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 92 97 102 107 }
+		decoration
+		backcolor 1 0 0 1 //RED COLOR
+		}
+	
+	itemDef {
+		name "red dot1"
+		rect -1.5 -2.4		3 4.8
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 92 97 }
+		decoration
+		backcolor 1 0 0 1 //RED COLOR
+		}
+
+		itemDef {
+		name "red dot2"
+		rect -2.4 -1.5		4.8 3
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 92 97 }
+		decoration
+		backcolor 1 0 0 1 //RED COLOR
+		}
+
+itemDef {
+		name "red dot1"
+		rect -1.5 -1.5		3 3
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 102 107 }
+		decoration
+		backcolor 1 0 0 1 //RED COLOR
+		}
+
+	////////////////
+	///dot//////////
+	////////////////
+		
+	
+	
+
+	itemDef {
+		name "Vertical-Top"
+		rect -1.5 -2.7		3 5
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 26 }
+		decoration
+		backcolor 0 0 0 1
+		}
+
+		
+	itemDef {
+		name "Horizontal-Left"
+		rect -2.7 -1.5		5 3
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 26 }
+		decoration
+		backcolor 0 0 0 1
+		}
+		
+	itemDef {
+		name "red vertical"
+		rect -1 -1.5		2 3
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 26 }
+		decoration
+		backcolor 1 0 0 1
+		}
+
+		
+	itemDef {
+		name "red horizontal"
+		rect -1.5 -1		3 2
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 26 }
+		decoration
+		backcolor 1 0 0 1
+		}
+		
+		
+////////////////////////////////////////
+///    CS style #3 cross      //////////
+////////////////////////////////////////
+		
+
+	itemDef {
+		name "Vertical-Top-Black"
+		rect -1.5 -9		3 6
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 23 }
+		decoration
+		backcolor 0 0 0 1
+		}
+	
+	itemDef {
+		name "Vertical-Low-Black"
+		rect -1.5 3		3 6
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 23 }
+		decoration
+		backcolor 0 0 0 1
+		}
+
+		
+	itemDef {
+		name "Horizontal-Left-Black"
+		rect -9 -1.5		6 3
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 23 }
+		decoration
+		backcolor 0 0 0 1
+		}
+
+	itemDef {
+		name "Horizontal-Right-Black"
+		rect 3 -1.5		6 3
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 23 }
+		decoration
+		backcolor 0 0 0 1
+		}
+		
+	itemDef {
+		name "Vertical-Top-Red"
+		rect -1 -8		2 4
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 23 }
+		decoration
+		backcolor 1 0 0 1
+		}
+		
+	itemDef {
+		name "Vertical-Low-Red"
+		rect -1 4		2 4
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 23 }
+		decoration
+		backcolor 1 0 0 1
+		}
+	
+		
+	itemDef {
+		name "Horizontal-Left-Red"
+		rect -8 -1		4 2
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 23 }
+		decoration
+		backcolor 1 0 0 1
+		}
+	
+	itemDef {
+		name "Horizontal-Right-Red"
+		rect 4 -1		4 2
+		visible 1
+		style 1
+		cvarTest "cg_customcrosshair"
+		showCvar { 23 }
+		decoration
+		backcolor 1 0 0 1
+		}
+	
+		
+}

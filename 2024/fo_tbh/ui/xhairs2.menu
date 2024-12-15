@@ -1,0 +1,143 @@
+#include "ui/menudef.h"
+//------------------------------------------------------------------------------------
+// Custom Crosshairs
+//------------------------------------------------------------------------------------
+
+		menuDef {
+		name       "xhair"
+		rect       304 224 64 36
+		fullScreen MENU_FALSE
+		visible    MENU_TRUE
+		itemdef {
+			name          "circle"
+			rect          -4 -4 40 40	 //0 0 32 32 //-2 -2 36 36 //-4 -4 40 40
+		visible 1
+		style 1
+		cvarTest "cg_drawcrosshair"
+		showCvar { 27 }
+		decoration
+			background    "gfx/2d/crosshaira.png" //a or e
+		backcolor 0 0 0 1
+		}
+	}
+
+menuDef {
+    name "Crosshair"
+    rect 320 240 32 32
+    fullScreen MENU_FALSE
+    visible MENU_TRUE
+
+//------------------------------------------------------------------------------------
+// Custom Crosshair "smaller, +" 0.2
+//------------------------------------------------------------------------------------
+
+	itemDef {
+		name "Vertical-Top"
+		rect -1.5 -3		3 6
+		visible 1
+		style 1
+		cvarTest "cg_drawcrosshair"
+		showCvar { 22 27 }
+		decoration
+		backcolor 0 0 0 1
+		}
+
+		
+		itemDef {
+		name "Horizontal-Left"
+		rect -3 -1.5		6 3
+		visible 1
+		style 1
+		cvarTest "cg_drawcrosshair"
+		showCvar { 22 27 }
+		decoration
+		backcolor 0 0 0 1
+		}
+		
+		itemDef {
+		name "white vertical"
+		rect -1 -2.5		2 5
+		visible 1
+		style 1
+		cvarTest "cg_drawcrosshair"
+		showCvar { 22 27 }
+		decoration
+		backcolor 1 1 1 1
+		}
+
+		
+	itemDef {
+		name "white horizontal"
+		rect -2.5 -1		5 2
+		visible 1
+		style 1
+		cvarTest "cg_drawcrosshair"
+		showCvar { 22 27 }
+		decoration
+		backcolor 1 1 1 1
+		}
+		
+
+	/////////////////////////////////////////////////////////
+	///dot//////////
+	////////////////////////////////////////
+		
+	
+	
+
+	itemDef {
+		name "Horizontal-Right"
+		rect -3.4 -1.9		 6.8 3.8
+		visible 1
+		style 1
+		cvarTest "cg_drawcrosshair"
+		showCvar { 26 }
+		decoration
+		backcolor 0 0 0 .3
+		}
+		
+	itemDef {
+		name "Horizontal-Right"
+		rect -1.9 -3.4		 3.8 6.8
+		visible 1
+		style 1
+		cvarTest "cg_drawcrosshair"
+		showCvar { 26 }
+		decoration
+		backcolor 0 0 0 .3
+		}
+
+		
+	itemDef {
+		name "Horizontal-Right"
+		rect -3.4 -1.5		 6.8 3
+		visible 1
+		style 1
+		cvarTest "cg_drawcrosshair"
+		showCvar { 26 }
+		decoration
+		backcolor 0 0 0 1
+		}
+		
+	itemDef {
+		name "Horizontal-Right"
+		rect -1.5 -3.4		 3 6.8
+		visible 1
+		style 1
+		cvarTest "cg_drawcrosshair"
+		showCvar { 26 }
+		decoration
+		backcolor 0 0 0 1
+		}
+	itemDef {
+		name "Horizontal-Right"
+		rect -2.4 -2.4		 4.8 4.8
+		visible 1
+		style 1
+		cvarTest "cg_drawcrosshair"
+		showCvar { 26 }
+		decoration
+		backcolor 0 0 0 1
+		}
+	
+}
